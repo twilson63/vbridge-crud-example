@@ -19,7 +19,7 @@ var state = app.state({
 // load services
 require('services/profiles')();
 // require('services/users')();
-// require('services/sessions')();
+require('services/sessions')();
 
 // load components
 var loginComponent = require('components/login');
