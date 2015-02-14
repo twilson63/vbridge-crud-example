@@ -10,6 +10,11 @@ if (process.env.COUCH_URL) {
   request.put(process.env.COUCH_URL + '/devbase').pipe(process.stdout);
 }
 
+var users = require('./services/users');
+users();
+var sessions = require('./services/sessions');
+sessions();
+
 http.createServer(function(req, res) {
   if (req.url.indexOf('/db') > -1) {
     // couchdb forward proxy here
