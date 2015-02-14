@@ -14,6 +14,7 @@ module.exports = function() {
     console.log('change');
     if (change.doc.object.type === 'user' && change.doc.verb === 'create') {
       var user = change.doc.object;
+      console.log(user);
       user._id = "org.couchdb.user:" + user.name;
       user.roles = [];
       users.post(user)
