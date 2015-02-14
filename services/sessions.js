@@ -1,6 +1,6 @@
 var dbUrl = process.env.COUCH_URL || 'http://127.0.0.1:5984';
 var pouchdb = require('pouchdb');
-var sessions = pouchdb(dbUrl + '/_sessions');
+var sessions = pouchdb(dbUrl + '/_session');
 var stream = pouchdb(dbUrl + '/devbase')
 
 module.exports = function() {
@@ -11,7 +11,7 @@ module.exports = function() {
   })
   .on('change', function(change) {
     if (change.doc.object.type === 'session' && change.doc.verb === 'create') {
-      console.log('logging in');
+      console.log(change.doc.object);
       sessions.post(change.doc.object)
       .then(function(res) {
         console.log(res);
