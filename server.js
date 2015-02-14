@@ -4,12 +4,13 @@ var ecstatic = require('ecstatic');
 var h = require('hyperscript');
 var request = require('request');
 var url = require('url');
+var dbUrl = process.env.COUCH_URL || 'http://127.0.0.1:5984';
 
 http.createServer(function(req, res) {
   if (req.url.indexOf('/db') > -1) {
     // couchdb forward proxy here
     var endpoint = req.url.replace('/db','/devbase');
-    req.pipe(request(url.resolve('http://127.0.0.1:5984', endpoint))).pipe(res);
+    req.pipe(request(url.resolve(dbUrl, endpoint))).pipe(res);
     return;
   }
   function renderHome() {
