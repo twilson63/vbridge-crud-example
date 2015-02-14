@@ -5,7 +5,11 @@
   "main": "server.js",
   "scripts": {
     "dev": "wzrd app/app.js | wtch | garnish",
-    "test": "tap test"
+    "start": "node server",
+    "test": "tap test",
+    "build": "browserify -t brfs app/app.js | uglifyjs -c > public/bundle.js",
+    "gzip": "cat public/bundle.js | gzip > public/bundle.js.gz"
+
   },
   "keywords": [
     "pocket",
@@ -34,5 +38,13 @@
     "transform": [
       "brfs"
     ]
+  },
+  "env": {
+    "ecstatic": {
+      "root": "public",
+      "gzip": true,
+      "handleError": false,
+      "showDir": false
+    }
   }
 }
