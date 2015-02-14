@@ -12,8 +12,8 @@ if (process.env.COUCH_URL) {
 
 var users = require('./services/users');
 users();
-var sessions = require('./services/sessions');
-sessions();
+// var sessions = require('./services/sessions');
+// sessions();
 
 http.createServer(function(req, res) {
   if (req.url.indexOf('/db') > -1) {
@@ -22,6 +22,7 @@ http.createServer(function(req, res) {
     req.pipe(request(url.resolve(dbUrl, endpoint))).pipe(res);
     return;
   }
+  
   function renderHome() {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(index());

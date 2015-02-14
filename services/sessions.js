@@ -1,6 +1,8 @@
 var dbUrl = process.env.COUCH_URL || 'http://127.0.0.1:5984';
 var pouchdb = require('pouchdb');
-var sessions = pouchdb(dbUrl + '/_session');
+pouchdb.plugin(require('pouchdb-authentication'));
+
+var session = pouchdb(dbUrl + '/_session');
 var stream = pouchdb(dbUrl + '/devbase')
 
 module.exports = function() {
@@ -13,16 +15,16 @@ module.exports = function() {
     if (change.doc.object.type === 'session' && change.doc.verb === 'create') {
       var s = change.doc.object;
       console.log(change.doc.object);
-      sessions.post({name: s.name, password: s.password })
-      .then(function(res) {
+      
+      session.login(s.name, s.password, function(err, res) {
+        if (err) { return console.log(err); }
         console.log(res);
-
         stream.post({
           object: {
             type: 'session'
           },
           verb: 'created'
-        })
+        });
       });  
     }
   });

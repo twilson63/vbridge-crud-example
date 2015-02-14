@@ -24,6 +24,7 @@
     "page": "^1.6.0",
     "page-body-parser": "^1.0.0",
     "pouchdb": "^3.3.0",
+    "pouchdb-authentication": "^0.3.6",
     "request": "^2.53.0",
     "vbridge": "0.0.1",
     "vflow-pouchdb": "^1.0.2"
