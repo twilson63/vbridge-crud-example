@@ -1,7 +1,9 @@
 require('./css');
 var pouchdb = require('pouchdb');
 // start replication with couchdb
-pouchdb.sync('vflow', window.location.href + '/db', { live: true });
+if (process.env.NODE_ENV === 'production') {
+  pouchdb.sync('vflow', window.location.href + '/db', { live: true });
+}
 
 var app = require('vbridge');
 var h = app.h;
@@ -10,20 +12,25 @@ var pageBodyParser = require('page-body-parser');
 
 var state = app.state({
   title: 'DevBase',
-  ref: 'search',
+  ref: 'login',
   profiles: []
 });
 
 // load services
 require('services/profiles')();
+require('services/users')();
+require('services/sessions')();
 
 // load components
+var loginComponent = require('components/login');
+var signupComponent = require('components/signup');
 var searchComponent = require('components/search');
 var newProfileComponent = require('components/new-profile');
 var showProfileComponent = require('components/show-profile');
 var editProfileComponent = require('components/edit-profile');
 
-[searchComponent, newProfileComponent, showProfileComponent, editProfileComponent]
+[ loginComponent, signupComponent, searchComponent, 
+  newProfileComponent, showProfileComponent, editProfileComponent ]
   .map(function(init) {
     init(state);
   });
@@ -37,6 +44,8 @@ app(document.body, state, render);
 
 function render(state) {
   var components = {
+    "login": loginComponent.render,
+    "signup": signupComponent.render,
     "search": searchComponent.render,
     "newProfile": newProfileComponent.render,
     "showProfile": showProfileComponent.render,
