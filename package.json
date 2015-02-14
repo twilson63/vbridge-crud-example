@@ -9,7 +9,6 @@
     "test": "tap test",
     "build": "browserify -t brfs app/app.js | uglifyjs -c > public/bundle.js",
     "gzip": "cat public/bundle.js | gzip > public/bundle.js.gz"
-
   },
   "keywords": [
     "pocket",
@@ -25,6 +24,7 @@
     "page": "^1.6.0",
     "page-body-parser": "^1.0.0",
     "pouchdb": "^3.3.0",
+    "request": "^2.53.0",
     "vbridge": "0.0.1",
     "vflow-pouchdb": "^1.0.2"
   },
