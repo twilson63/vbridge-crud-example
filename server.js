@@ -6,6 +6,10 @@ var request = require('request');
 var url = require('url');
 var dbUrl = process.env.COUCH_URL || 'http://127.0.0.1:5984';
 
+if (process.env.COUCH_URL) {
+  request.put(process.env.COUCH_URL + '/devbase').pipe(process.stdout);
+}
+
 http.createServer(function(req, res) {
   if (req.url.indexOf('/db') > -1) {
     // couchdb forward proxy here
