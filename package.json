@@ -4,7 +4,7 @@
   "description": "A simple database of connections",
   "main": "server.js",
   "scripts": {
-    "dev": "wzrd app.js | wtch | garnish",
+    "dev": "wzrd app/app.js | wtch | garnish",
     "test": "tap test"
   },
   "keywords": [

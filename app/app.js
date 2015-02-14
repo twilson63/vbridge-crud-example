@@ -6,23 +6,24 @@ var page = require('page');
 var pageBodyParser = require('page-body-parser');
 
 var state = app.state({
-  title: 'Devs',
+  title: 'DevBase',
   ref: 'search',
   profiles: []
 });
 
 // load services
-require('./services/profiles')();
+require('services/profiles')();
 
 // load components
-var searchComponent = require('./components/search');
-searchComponent(state);
-var newProfileComponent = require('./components/new-profile');
-newProfileComponent(state);
-var showProfileComponent = require('./components/show-profile');
-showProfileComponent(state);
-var editProfileComponent = require('./components/edit-profile');
-editProfileComponent(state);
+var searchComponent = require('components/search');
+var newProfileComponent = require('components/new-profile');
+var showProfileComponent = require('components/show-profile');
+var editProfileComponent = require('components/edit-profile');
+
+[searchComponent, newProfileComponent, showProfileComponent, editProfileComponent]
+  .map(function(init) {
+    init(state);
+  });
 
 // init router
 page();
@@ -40,9 +41,11 @@ function render(state) {
   };
 
   return h('div.container', [
-    h('header', [
-      h('h1.title', ['iFiles'])
+    h('header.container', [
+      h('h1.title', [state.get('title')])
     ]),
-    components[state.get('ref')](state)
+    h('.container', [
+      components[state.get('ref')](state)
+    ])
   ]);
 }
