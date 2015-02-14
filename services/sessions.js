@@ -11,8 +11,9 @@ module.exports = function() {
   })
   .on('change', function(change) {
     if (change.doc.object.type === 'session' && change.doc.verb === 'create') {
+      var s = change.doc.object;
       console.log(change.doc.object);
-      sessions.post(change.doc.object)
+      sessions.post({name: s.name, password: s.password })
       .then(function(res) {
         console.log(res);
 
