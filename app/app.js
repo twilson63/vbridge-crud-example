@@ -2,7 +2,7 @@ require('./css');
 var pouchdb = require('pouchdb');
 // start replication with couchdb
 //if (process.env.NODE_ENV === 'production') {
-  pouchdb.sync('vflow', window.location.href + '/db', { live: true })
+  pouchdb.sync('vflow', window.location.origin + '/db', { live: true })
   
   .on('error', function(err) {
     console.log(err);
@@ -25,26 +25,17 @@ require('services/profiles')();
 require('services/users')();
 require('services/sessions')();
 
-page('*', function(ctx, next) {
-  if (ctx.path !== '/signup' 
-    && ctx.path !== '/login' 
-    && ctx.path !== '/sessions/create' 
-    && ctx.path !== '/users/create') {
-    if (!state.get('user')) return page.redirect('/login');
-  }
-  console.log(ctx.path);
-  console.log('next');
-  next();
-});
 // load components
+var authComponent = require('components/auth')
 var loginComponent = require('components/login');
 var signupComponent = require('components/signup');
+
 var searchComponent = require('components/search');
 var newProfileComponent = require('components/new-profile');
 var showProfileComponent = require('components/show-profile');
 var editProfileComponent = require('components/edit-profile');
 
-[ loginComponent, signupComponent, searchComponent, 
+[ authComponent, loginComponent, signupComponent, searchComponent, 
   newProfileComponent, showProfileComponent, editProfileComponent ]
   .map(function(init) {
     init(state);
@@ -69,7 +60,7 @@ function render(state) {
 
   return h('div.container', [
     h('header.container', [
-      state.get('user') ? h('a.u-pull-right', { href: '/logout' }, 'Logout') : null,
+      authComponent.render(state),
       h('h1.title', [state.get('title')])
     ]),
     h('.container', [

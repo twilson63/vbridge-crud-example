@@ -17,7 +17,7 @@ if (process.env.COUCH_URL) {
 
 http.createServer(function(req, res) {
   // Database Commands
-  if (req.url === '/_session') {
+  if (req.url.indexOf('/_session') > -1) {
     req.pipe(request(url.resolve(dbUrl, req.url))).pipe(res);
     return;
   }
