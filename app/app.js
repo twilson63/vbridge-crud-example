@@ -25,6 +25,17 @@ require('services/profiles')();
 require('services/users')();
 require('services/sessions')();
 
+page('*', function(ctx, next) {
+  if (ctx.path !== '/signup' 
+    && ctx.path !== '/login' 
+    && ctx.path !== '/sessions/create' 
+    && ctx.path !== '/users/create') {
+    if (!state.get('user')) return page.redirect('/login');
+  }
+  console.log(ctx.path);
+  console.log('next');
+  next();
+});
 // load components
 var loginComponent = require('components/login');
 var signupComponent = require('components/signup');
@@ -58,6 +69,7 @@ function render(state) {
 
   return h('div.container', [
     h('header.container', [
+      state.get('user') ? h('a.u-pull-right', { href: '/logout' }, 'Logout') : null,
       h('h1.title', [state.get('title')])
     ]),
     h('.container', [
