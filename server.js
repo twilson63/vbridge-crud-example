@@ -10,6 +10,8 @@ if (process.env.COUCH_URL) {
   request.put(process.env.COUCH_URL + '/devbase').pipe(process.stdout);
 }
 
+var profiles = require('./services/profiles');
+profiles();
 // var users = require('./services/users');
 // users();
 // var sessions = require('./services/sessions');

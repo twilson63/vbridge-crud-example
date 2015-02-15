@@ -12,7 +12,7 @@ var state = app.state({
 });
 
 // load services
-require('services/profiles')();
+//require('services/profiles')();
 require('services/users')();
 require('services/sessions')();
 
