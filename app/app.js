@@ -1,13 +1,4 @@
 require('./css');
-var pouchdb = require('pouchdb');
-// start replication with couchdb
-//if (process.env.NODE_ENV === 'production') {
-  pouchdb.sync('vflow', window.location.origin + '/db', { live: true })
-  
-  .on('error', function(err) {
-    console.log(err);
-  });
-//}
 
 var app = require('vbridge');
 var h = app.h;
