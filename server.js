@@ -10,19 +10,28 @@ if (process.env.COUCH_URL) {
   request.put(process.env.COUCH_URL + '/devbase').pipe(process.stdout);
 }
 
-var users = require('./services/users');
-users();
+// var users = require('./services/users');
+// users();
 // var sessions = require('./services/sessions');
 // sessions();
 
 http.createServer(function(req, res) {
+  console.log(req.url);
+  if (req.url === '/_session') {
+    req.pipe(request(url.resolve(dbUrl, req.url))).pipe(res);
+    return;
+  }
+  if (req.url.indexOf('/_users') > -1 ) {
+    req.pipe(request(url.resolve(dbUrl, req.url))).pipe(res);
+    return;
+  }
   if (req.url.indexOf('/db') > -1) {
     // couchdb forward proxy here
     var endpoint = req.url.replace('/db','/devbase');
     req.pipe(request(url.resolve(dbUrl, endpoint))).pipe(res);
     return;
   }
-  
+
   function renderHome() {
     res.writeHead(200, {'content-type': 'text/html'});
     res.end(index());
