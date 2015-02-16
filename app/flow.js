@@ -19,11 +19,14 @@ stream.changes({
   if (!change.doc.object.type) return;
   
   var key = [change.doc.object.type, change.doc.verb].join(':'); 
-  if (key.indexOf('-response') > -1 && change.doc.systemId !== systemId) {
-    //console.log(change.doc);
-    return;
-  }
-  ee.emit(key, change.doc);
+  // if (key.indexOf('-response') > -1 && change.doc.systemId !== systemId) {
+  //   //console.log(change.doc);
+  //   return;
+  // }
+  console.log(key);
+  console.log(change.doc.systemId);
+  console.log(systemId);
+  if (change.doc.systemId === systemId) ee.emit(key, change.doc);
 
 });
 

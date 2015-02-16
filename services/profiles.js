@@ -35,8 +35,7 @@ module.exports = function() {
           row.doc.skills = row.doc.skills ? row.doc.skills : [];
           return row.doc;
         });  
-
-        ee.emit('post', {
+        var qryResults = {
           object: {
             type: 'profile',
             docs: docs
@@ -44,7 +43,9 @@ module.exports = function() {
           verb: 'query-response',
           actor: doc.actor,
           systemId: doc.systemId
-        });           
+        };
+        ee.emit('post', qryResults); 
+
       }, function(err) {
         ee.emit('post', {
           verb: 'error',
@@ -67,7 +68,8 @@ module.exports = function() {
         var e = {
           verb: 'created',
           object: doc.object,
-          actor: doc.actor
+          actor: doc.actor,
+          systemId: doc.systemId
         };
         ee.emit('post', e);
       });
@@ -81,7 +83,8 @@ module.exports = function() {
         ee.emit('post', { 
           verb: 'updated',
           object: doc.object,
-          actor: doc.actor
+          actor: doc.actor,
+          systemId: doc.systemId
         });
       }, function(err) {
         console.log(err);
@@ -94,7 +97,8 @@ module.exports = function() {
         ee.emit('post', {
           verb: 'removed',
           object: res,
-          actor: doc.actor
+          actor: doc.actor,
+          systemId: doc.systemId
         });
       });
   });
