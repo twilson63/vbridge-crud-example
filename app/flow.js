@@ -2,7 +2,7 @@ var EventEmitter = require('events').EventEmitter, ee;
 ee = module.exports = (ee = global.ee) != null ? ee : new EventEmitter();
 
 var pouchdb = require('pouchdb');
-var stream = pouchdb('devbase');
+var stream = pouchdb(window.location.origin + '/db');
 
 var uuid = require('node-uuid');
 
