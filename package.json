@@ -4,7 +4,7 @@
   "description": "A simple database of connections",
   "main": "server.js",
   "scripts": {
-    "dev": "wzrd app/app.js | wtch | garnish",
+    "dev": "rm public/bundle.js.gz && watchify -t brfs app/app.js -o public/bundle.js & nodemon server.js",
     "start": "node server",
     "test": "tap test",
     "build": "browserify -t brfs app/app.js | uglifyjs -c > public/bundle.js",
@@ -33,6 +33,8 @@
   "devDependencies": {
     "brfs": "^1.3.0",
     "garnish": "^1.0.5",
+    "nodemon": "^1.3.7",
+    "watchify": "^2.3.0",
     "wtch": "^1.1.1",
     "wzrd": "^1.2.1"
   },
